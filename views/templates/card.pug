@@ -1,7 +1,7 @@
-div(class="bg-white shadow rounded-lg")
+div(class="bg-blanco shadow rounded-lg border border-vino")
     img(class="object-cover h-72 w-full"  src=`/uploads/${propiedad.imagen}` alt=`imagen de la propiedad ${propiedad.titulo}`)
     div(class="p-5 space-y-5")
-        h1(class="text-xl font-bold")= propiedad.titulo
+        h1(class="text-xl font-bold text-negro")= propiedad.titulo
         p(class="text-sm text-gray-600") Habitaciones:  
                                 span(class="text-gray-800 font-bold")= propiedad.habitaciones
         p(class="text-sm text-gray-600") WC:  
