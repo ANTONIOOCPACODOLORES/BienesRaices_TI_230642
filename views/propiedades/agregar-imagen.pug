@@ -3,18 +3,18 @@ extends ../layout/admin
 block styles
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css")
     meta(name="csrf-token" content= csrfToken)
+
 block contenido
     .py-10
-         h1.text-4xl.my-10.font-extrabold.text-center.text-negro Bienes 
-            span.font-normal.text-vino Raíces  
-        h2.text-center.text-2xl.font-extrabold.text-negro= pagina
+        h1.text-4xl.my-10.font-extrabold.text-center.text-black Bienes
+            span.font-normal.text-orange Raíces  
+        h2.text-center.text-2xl.font-extrabold= pagina
 
-        div(class="bg-blanco shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10 md:px-10 border border-verde")
-            form(id="imagen" class="dropzone border-dashed border-2 border-vino w-full min:h-96 h-auto rounded flex-col justify-center items-center" method="POST" action=`/propiedades/agregar-imagen/${propiedad.id}`)
+        div(class="bg-verde shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
+            form(id="imagen" class="dropzone border-dashed border-2 w-full min:h-96 h-auto rounded flex-col justify-center items-center" method="POST" action=`/propiedades/agregar-imagen/${propiedad.id}` data-context="propiedad")
                 input(type="hidden" name="_csrf" value= csrfToken)
                 
-
-            button(id="publicar" class="mt-5 w-full py-3 bg-rosaF hover:bg-verde text-white rounded font-bold uppercase cursor-pointer" type="button") Publicar Propiedad   
+            button(id="publicar" class="mt-5 w-full py-3 bg-vino hover:bg-vino rounded text-white font-bold uppercase cursor-pointer" type="button") Publicar Propiedad  
 
 block scripts 
     script(src="/js/agregarImagen.js")

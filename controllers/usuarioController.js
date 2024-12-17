@@ -2,9 +2,10 @@ import { check, validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import Usuario from '../models/Usuario.js'
 import { generateID, generarJWT } from '../helpers/tokens.js'
-import { emailRegistro, emailOlvidePassword,emailImagenGuardada } from '../helpers/emails.js'
-import moment from 'moment';
-
+import { emailRegistro, emailOlvidePassword } from '../helpers/emails.js'
+import moment from 'moment'
+import pool from '../config/db.js'; 
+import multer from 'multer';
 
 const formularioLogin = (req, res) => {
     res.render('auth/login', {
@@ -88,8 +89,6 @@ const formularioRegistro = (req, res) => {
 
 const registrar = async (req, res) => {
     console.log(req.body)
-
-    //validación
     await check('nombre').notEmpty().withMessage('El nombre no puede ir vacío').run(req);
     await check('email')
         .notEmpty().withMessage('El correo electrónico es un campo obligatorio')
@@ -102,6 +101,7 @@ const registrar = async (req, res) => {
     await check('repetir_password')
         .equals(req.body.password).withMessage('La contraseña debe coincidir con la anterior')
         .run(req);
+
     // Validación de la fecha de nacimiento
     await check('fecha_nacimiento')
         .notEmpty().withMessage('La fecha de nacimiento es obligatoria')
@@ -113,16 +113,16 @@ const registrar = async (req, res) => {
             return true;
         })
         .run(req);
-            // Validación del alias
+
+    // Validación del alias
     await check('alias')
         .notEmpty().withMessage('El alias es un campo obligatorio')
         .isLength({ min: 3 }).withMessage('El alias debe tener al menos 3 caracteres')
         .run(req);
 
-        let resultado = validationResult(req)
+    let resultado = validationResult(req)
 
-            //verificar que el resultado este vacio
-
+    //verificar que el resultado este vacio
     if (!resultado.isEmpty()) {
         return res.render('auth/registro', {
             pagina: 'Crear cuenta',
@@ -138,7 +138,6 @@ const registrar = async (req, res) => {
     }
 
     //Extraer los datos
-
     const { nombre, email, password, foto = '', alias, fecha_nacimiento } = req.body
 
     //verificar que el usuario no este duplicado
@@ -168,13 +167,12 @@ const registrar = async (req, res) => {
         token: generateID()
     })
 
-    //Enviar email de confirmacion
+    //Enviar email de confirmación
     emailRegistro({
         nombre: usuario.nombre,
         email: usuario.email,
         token: usuario.token
     })
-
 
     res.render('auth/agregar-foto', {
         pagina: `Agregar Imagen: ${usuario.nombre}`,
@@ -269,7 +267,7 @@ const comprobarToken = async (req, res) => {
     if (!usuario) {
         return res.render('auth/confirmar-cuenta', {
             pagina: 'Restablece tu password',
-            mensaje: 'Hubo un error al validar tu informsción, intenta de nuevo',
+            mensaje: 'Hubo un error al validar tu información, intenta de nuevo',
             error: true
         })
     }
@@ -317,9 +315,11 @@ const nuevoPassword = async (req, res) => {
 
 }
 
+
 const subirFotoPerfil = async (req, res) => {
 
     const { id } = req.params
+    //Validar que la propiedad exista
 
     const usuario = await Usuario.findByPk(id)
 
@@ -333,58 +333,47 @@ const subirFotoPerfil = async (req, res) => {
                 email: req.body.email
             }
         })
-    }
-
-        //Enviar email de confirmacion
-        emailImagenGuardada({
-            nombre: usuario.nombre,
-            email: usuario.email,
-            token: usuario.token
-        })
-    
+    }   
 }
 
 const almacenarFotoPerfil = async (req, res) => {
     const { id } = req.params;
 
-    // Validar que el usuario exista
-    const usuario = await Usuario.findByPk(id);
-
-    if (!usuario) {
-        return res.render('auth/registro', {
-            pagina: 'Crear cuenta',
-            csrfToken: req.csrfToken(),
-            errores: [{ msg: 'El usuario no está registrado' }],
-            usuario: {
-                nombre: req.body.nombre,
-                email: req.body.email,
-            },
-        });
-    }
-
     try {
-        console.log(req.file);
+        // Validar usuario
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            console.log('Usuario no encontrado');
+            return res.render('auth/registro', {
+                pagina: 'Crear cuenta',
+                csrfToken: req.csrfToken(),
+                errores: [{ msg: 'El usuario no está registrado' }],
+                usuario: {
+                    nombre: req.body.nombre,
+                    email: req.body.email,
+                },
+            });
+        }
+
+        // Depuración para verificar req.file
+        console.log('Archivo recibido:', req.file);
+
+        if (!req.file) {
+            throw new Error('No se subió ninguna imagen');
+        }
 
         // Almacenar la imagen del usuario
         usuario.foto = req.file.filename;
         await usuario.save();
 
-        // Enviar el correo de confirmación
-        emailImagenGuardada({
-            nombre: usuario.nombre,
-            email: usuario.email,
-            token: usuario.token,
-        });
+        console.log('Imagen almacenada con éxito, redirigiendo...');
 
-        // Mostrar la página de mensaje de confirmación
-        return res.render('templates/message', {
-            pagina: 'Cuenta creada correctamente',
-            mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace.',
-        });
+        // Después de guardar la foto y procesar la lógica
+        return res.redirect('/auth/mensaje');
+
     } catch (error) {
-        console.log(error);
+        console.error('Error en el controlador:', error);
 
-        // Manejar errores en la subida de la imagen
         return res.render('auth/registro', {
             pagina: 'Crear cuenta',
             csrfToken: req.csrfToken(),
@@ -396,6 +385,7 @@ const almacenarFotoPerfil = async (req, res) => {
         });
     }
 };
+
 
  const mostrarUsuario = async (req, res) => {
     const { id } = req.params;
