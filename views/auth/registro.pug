@@ -35,13 +35,13 @@ block contenido
                     input(type="hidden" name="_csrf" value= csrfToken)
                     div
                         label.block.text-sm.uppercase.text-black.mb-2.font-bold Nombre Completo: 
-                        input#name.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="text" placeholder="Ej. Juanito Peréz" name="nombre" value=(usuario && usuario.nombre ? usuario.nombre : ""))
+                        input#name.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="text" placeholder="Ej. usuario123" name="nombre" value=(usuario && usuario.nombre ? usuario.nombre : ""))
                     div
                         label.block.text-sm.uppercase.text-black.mb-2.font-bold Alias: 
-                        input#alias.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="text" placeholder="Ej. juanperez123" name="alias" value=(usuario && usuario.alias ? usuario.alias : ""))
+                        input#alias.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="text" placeholder="Ej. Fulanitodetal" name="alias" value=(usuario && usuario.alias ? usuario.alias : ""))
                     div
                         label.block.text-sm.uppercase.text-gray.mb-2.font-bold Email de Registro: 
-                        input#email.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="email" placeholder="Ej. usuario@paisdelasmaravillas.com" name="email" value=(usuario && usuario.email ? usuario.email : ""))
+                        input#email.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="email" placeholder="Ej. usuario@correo.com" name="email" value=(usuario && usuario.email ? usuario.email : ""))
                     div
                         label.block.text-sm.uppercase.text-black.mb-2.font-bold Fecha de Nacimiento: 
                         input#birthdate.w-full.px-3.py-2.border-2.border-gray-300.rounded-md(type="date" name="fecha_nacimiento" value=(usuario && usuario.fecha_nacimiento ? usuario.fecha_nacimiento : ""))
@@ -54,7 +54,7 @@ block contenido
                     div.flex.items-center.justify-between
                         a.text-gray.text-xs(href="/auth/login" class="hover:text-white hover:underline hover:decoration-vino transition-all duration-300") ¿Ya tienes cuenta? Inicia Sesión
                         a.text-gray.text-xs(href="/auth/olvide-password" class="hover:text-white hover:underline hover:decoration-vino transition-all duration-300") Recuperar Contraseña
-                    input(class="w-full bg-red hover:bg-vino focus:bg-red-400 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
+                    input(class="w-full bg-vino hover:bg-vino focus:bg-red-400 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
 
     script.
         document.querySelectorAll('.alert').forEach(error => {
