@@ -6,13 +6,13 @@ block styles
 block contenido
     div.py-10
         h1.text-4xl.my-10.font-extrabold.text-center.text-black Bienes
-            span.font-normal.text-orange-500 Raíces 
+            span.font-normal.text-white Raíces 
         h2.text-center.text-2xl.font-extrabold= pagina
 
         if errores 
             div(class="max-w-md mx-auto my-10")
                 each error in errores
-                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+                    p.bg-red.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
 
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
             form.space-y-8(method="POST" action="/propiedades/crear")
@@ -87,7 +87,7 @@ block contenido
                         input(type="hidden" name="lat" id="lat" value= datos.lat ? datos.lat : '')
                         input(type="hidden" name="lng" id="lng" value= datos.lng ? datos.lng : '')
 
-                    input(class="w-full py-3 bg-orange hover:bg-wine rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Crear Propiedad")    
+                    input(class="w-full py-3 bg-vino hover:bg-wine rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Crear Propiedad")    
 
 block scripts 
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")

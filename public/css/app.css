@@ -820,13 +820,13 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(101 113 83 / var(--tw-bg-opacity, 1));
 }
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
 .bg-vino {
   --tw-bg-opacity: 1;
   background-color: rgb(61 0 29 / var(--tw-bg-opacity, 1));
+}
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 .object-cover {
   -o-object-fit: cover;
@@ -961,10 +961,6 @@ video {
 .text-pink {
   --tw-text-opacity: 1;
   color: rgb(237 107 134 / var(--tw-text-opacity, 1));
-}
-.text-vino {
-  --tw-text-opacity: 1;
-  color: rgb(61 0 29 / var(--tw-text-opacity, 1));
 }
 .text-white {
   --tw-text-opacity: 1;

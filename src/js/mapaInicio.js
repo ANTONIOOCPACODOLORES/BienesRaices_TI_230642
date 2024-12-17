@@ -67,7 +67,7 @@
                     <h1 class="text-xl font-extrabold uppercase my-5">${propiedad.titulo}</h1>
                     <img src="/uploads/${propiedad.imagen}" alt="Imagen de la propiedad ${propiedad.titulo}">
                     <p class="text-gray-600 font-bold">${propiedad.precio.nombre}</p>
-                    <a href="/propiedad/${propiedad.id}" class="bg-wine text-white px-4 py-2 rounded shadow-md block text-center font-bold uppercase hover:bg-orange-600">Ver La Propiedad</a>
+                    <a href="/propiedad/${propiedad.id}" class="bg-black text-white px-4 py-2 rounded shadow-md block text-center font-bold uppercase hover:bg-vino">Ver La Propiedad</a>
                 `);
 
             markers.addLayer(marker);
